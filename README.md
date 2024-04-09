@@ -1,5 +1,5 @@
 If you use Windows 10+ please will install WSL:
-<http://example.com/](https://learn.microsoft.com/ru-ru/windows/wsl/instal/)>
+<https://learn.microsoft.com/ru-ru/windows/wsl/instal/>
 
 Requirements for build:
 ```
