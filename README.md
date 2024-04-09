@@ -20,6 +20,7 @@ Then, you can build your project:)
 The experiment was running on an 8-thread laptop
 ================================================
 Results of run:
+--------------
 
 |Razmer obektov|Posledovatelnyj algoritm (vremya) ms|2 processa (vremya) ms|2 processa (izmenenie) ms|4 processa (vremya) ms|4 processa (izmenenie) ms|8 processov (vremya) ms|8 processov (izmenenie) ms|16 processov (vremya) ms|16 processov (izmenenie) ms|
 | ---      | ---      | ---      | ---      | ---      | ---      | ---      | ---      | ---      | ---      |
