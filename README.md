@@ -19,7 +19,7 @@ Then, you can build your project:)
 
 Results of run:
 
-Razmer obektov|Posledovatelnyj algoritm (vremya)|2 processa (vremya)|2 processa (izmenenie)|4 processa (vremya)|4 processa (izmenenie)|8 processov (vremya)|8 processov (izmenenie)|16 processov (vremya)|16 processov (izmenenie)|
+|Razmer obektov|Posledovatelnyj algoritm (vremya)|2 processa (vremya)|2 processa (izmenenie)|4 processa (vremya)|4 processa (izmenenie)|8 processov (vremya)|8 processov (izmenenie)|16 processov (vremya)|16 processov (izmenenie)|
 |2000|25.4662|14.6684|10.7978|10.401|15.0652|6.35378|19.1124|18.7857|6.68048|
 |5000|160.503|75.8162|84.6863|69.5018|91.0008|74.5242|85.9783|73.6909|86.8116|
 |10000|513.376|291.281|222.095|227.728|285.647|165.342|348.033|161.334|352.041|
