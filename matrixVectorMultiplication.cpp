@@ -85,21 +85,19 @@ void readMatrixFromFile(int &n, std::vector<double> &vec, std::vector<std::vecto
     file.close();
 }
 
-void generateVector(int &n, std::vector<double> &vec) {
+void generateVector(int n, std::vector<double> &vec) {
     for (int i = 0; i < n; ++i) {
         vec[i] = (double)(rand())/RAND_MAX; // generating random vector
     }
 }
 
-void generateMatrix(int &n, std::vector<std::vector<double>> &mat) {
+void generateMatrix(int n, std::vector<std::vector<double>> &mat) {
 
      for (int i = 0; i < n; ++i) {
-         mat.push_back(std::vector<double>(n));
          for (int j = 0; j < n; ++j) {
              mat[i][j] = (double)(rand())/RAND_MAX; // generating random matrix
          }
      }
-
 }
 
 void printVector(int &n, std::vector<double> &vec) {
@@ -128,9 +126,9 @@ void printMatrix(int &n, std::vector<std::vector<double>> &mat) {
 int main() {
     setlocale(LC_ALL, "Russian");
     double runTimeOneThread = 0.0;
-    std::vector<double> vec = {};
-    std::vector<std::vector<double>> mat = {{}};
-    std::vector<double> vecResult = {};
+    std::vector<double> vec;
+    std::vector<std::vector<double>> mat;
+    std::vector<double> vecResult;
 
     std::ofstream file("statisticOfRunTimeMultiMatrixVectorThreads.csv");
     file << "Razmer obektov;"
@@ -145,18 +143,20 @@ int main() {
             "16 processov (izmenenie);"
          << std::endl;
 
+    int maxSize = 30000;
     std::vector<int> listOfThreads = {2, 4, 8, 16};
-    std::vector<int> listSizeOfObjects = {5000, 10000, 20000, 40000, 50000};
-    std::vector<double> listOfRunTimes = {};
+    std::vector<int> listSizeOfObjects = {2000, 5000, 10000, 15000, maxSize};
+            std::vector<double> listOfRunTimes = {};
+
+    int sizeReserve = maxSize + 1000;
+    vec.reserve(sizeReserve);
+    vecResult.reserve(sizeReserve);
+    mat.reserve(sizeReserve);
+    for (int i = 0; i < sizeReserve; ++i) {
+        mat[i].reserve(sizeReserve);
+    }
 
     for (auto &sizeOfObject: listSizeOfObjects) {
-
-        vec.resize(sizeOfObject, 0);
-        vecResult.resize(sizeOfObject, 0);
-        mat.resize(sizeOfObject);
-        for (int i = 0; i < sizeOfObject; ++i) {
-            mat[i].resize(sizeOfObject, 0);
-        }
 
         // generating random vector
         generateVector(sizeOfObject, vec);
@@ -172,15 +172,15 @@ int main() {
             listOfRunTimes.push_back(matrixVectorMultiplicationParallelRunTime(sizeOfObject, numOfThread, mat, vec, vecResult));
         }
 
+        std::cout << "Запись в файл .. " << std::endl;
         // output statistic
         file << std::to_string(sizeOfObject) << ";";
         file << runTimeOneThread << ";";
         for (auto &runTimeOfThread: listOfRunTimes) {
-            file << runTimeOfThread << ";" << listOfRunTimes[0] - runTimeOfThread << ";" ;
+            file << runTimeOfThread << ";" << runTimeOneThread - runTimeOfThread << ";" ;
         }
         file << std::endl;
-        listOfRunTimes.clear();
-
+        listOfRunTimes = {};
     }
     file.close();
 
