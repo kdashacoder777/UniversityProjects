@@ -8,7 +8,7 @@ $apt-get install gdb\
 $sudo apt-get install gcc\
 $sudo apt-get install build-essential\
 
-Install OMP library:\
+Install OMP library:
 $sudo apt install libomp-dev\
 
 Then, you can build your project:)
