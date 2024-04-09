@@ -19,9 +19,11 @@ Then, you can build your project:)
 
 Results of run:
 
-Razmer obektov;Posledovatelnyj algoritm (vremya);2 processa (vremya);2 processa (izmenenie);4 processa (vremya);4 processa (izmenenie);8 processov (vremya);8 processov (izmenenie);16 processov (vremya);16 processov (izmenenie);
-2000;4.813;2.99769;1.81531;1.57346;3.23954;2.75618;2.05682;5.61216;-0.799156;
-5000;26.5486;16.8916;9.65703;9.3422;17.2064;11.1955;15.3531;13.5933;12.9553;
-10000;104.494;56.2283;48.2662;31.8155;72.6789;24.1693;80.3252;25.4926;79.0019;
-15000;237.519;124.811;112.708;71.8748;165.644;53.0194;184.499;55.5419;181.977;
+Razmer obektov|Posledovatelnyj algoritm (vremya)|2 processa (vremya)|2 processa (izmenenie)|4 processa (vremya)|4 processa (izmenenie)|8 processov (vremya)|8 processov (izmenenie)|16 processov (vremya)|16 processov (izmenenie)|
+|2000|25.4662|14.6684|10.7978|10.401|15.0652|6.35378|19.1124|18.7857|6.68048|
+|5000|160.503|75.8162|84.6863|69.5018|91.0008|74.5242|85.9783|73.6909|86.8116|
+|10000|513.376|291.281|222.095|227.728|285.647|165.342|348.033|161.334|352.041|
+|15000|1048.72|609.983|438.732|474.762|573.953|352.043|696.673|363.046|685.67|
+|30000|4464.93|2487.46|1977.47|1630.36|2834.57|1379.66|3085.27|1443.59|3021.34|
+
 
