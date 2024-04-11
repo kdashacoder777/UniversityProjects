@@ -3,7 +3,6 @@
 #ifndef UNIVERWORK2024_TASK2_H
 #define UNIVERWORK2024_TASK2_H
 
-
 struct Compare { int val; int index; };
 #pragma omp declare reduction(maximum : \
                               struct Compare : \
