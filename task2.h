@@ -98,7 +98,6 @@ double quickSortRunTime(int n, int numThreads, std::vector<int>& vec) {
     return duration_ms.count();
 }
 
-
 void mergeSort(int *X, int n, int *tmp)
 {
     if (n < 2) return;
