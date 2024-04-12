@@ -150,35 +150,177 @@ double mergeSortRunTime(int n, int numThreads, std::vector<int>& vec) {
 
 void task2() {
 
-    std::vector<int> vec;
-    int maxSize = 30000;
-    std::vector<int> listOfThreads = {2, 4, 8, 16};
-    std::vector<int> listSizeOfObjects = {2000, 5000, 10000, 15000, maxSize};
-    std::vector<double> listOfRunTimes = {};
+//    std::vector<int> vec;
+//    int maxSize = 30000;
+//    std::vector<int> listOfThreads = {2, 4, 8, 16};
+//    std::vector<int> listSizeOfObjects = {2000, 5000, 10000, 15000, maxSize};
+//    std::vector<double> listOfRunTimes = {};
+//
+//    int sizeReserve = maxSize + 1000;
+//    vec.reserve(sizeReserve);
+//
+//    int n = 100000;
+//    std::cout << "Размер объекта n = " << n << std::endl;
+//
+//    std::cout << "Сортировка выбором " << std::endl;
+//    intGenerateVector(n, 0, n, vec);
+//    printVector<int>(n, vec);
+//    selectionSortParallelRunTime(n, 1, vec);
+//    printVector<int>(n, vec);
+//
+//    std::cout << "<Быстрая сортировка" << std::endl;
+//    intGenerateVector(n, 0, n, vec);
+//    printVector<int>(n, vec);
+//    quickSortRunTime(n, 1, vec);
+//    printVector<int>(n, vec);
+//
+//    std::cout << "Слиянием сортировка" << std::endl;
+//    intGenerateVector(n, 0, n, vec);
+//    printVector<int>(n, vec);
+//    mergeSortRunTime(n, 1, vec);
+//    printVector<int>(n, vec);
 
-    int sizeReserve = maxSize + 1000;
+    std::vector<int> vec;
+    std::vector<int> listOfThreads = {2, 4, 8, 16};
+
+    int minSize = 10000;
+    int maxSize = 50000;
+    std::vector<int> listSizeOfObjects = {minSize, 2 * minSize, 3 * minSize, 4 * minSize, maxSize};
+    std::vector<double> listOfRunTimes = {};
+    double runTimeOneThread = 0.0;
+
+    int sizeReserve = maxSize + 0.2 * maxSize;
     vec.reserve(sizeReserve);
 
-    int n = 100000;
-    std::cout << "Размер объекта n = " << n << std::endl;
+    std::ofstream file1("statisticOfRunTimeSelectionSortThreads.csv");
+    file1 << "Razmer obektov;"
+             "Posledovatelnyj algoritm (vremya);"
+             "2 processa (vremya);"
+             "2 processa (izmenenie);"
+             "4 processa (vremya);"
+             "4 processa (izmenenie);"
+             "8 processov (vremya);"
+             "8 processov (izmenenie);"
+             "16 processov (vremya);"
+             "16 processov (izmenenie);"
+         << std::endl;
 
-    std::cout << "Сортировка выбором " << std::endl;
-    intGenerateVector(n, 0, n, vec);
-    printVector<int>(n, vec);
-    selectionSortParallelRunTime(n, 1, vec);
-    printVector<int>(n, vec);
+    std::cout << "Selection Sort..." << std::endl;
+    // Статистика для Сортировки выбором
+    for (auto &sizeOfObject: listSizeOfObjects) {
 
-    std::cout << "<Быстрая сортировка" << std::endl;
-    intGenerateVector(n, 0, n, vec);
-    printVector<int>(n, vec);
-    quickSortRunTime(n, 1, vec);
-    printVector<int>(n, vec);
+        // generating random vector
+        intGenerateVector(sizeOfObject, 0, sizeOfObject, vec);
 
-    std::cout << "Слиянием сортировка" << std::endl;
-    intGenerateVector(n, 0, n, vec);
-    printVector<int>(n, vec);
-    mergeSortRunTime(n, 1, vec);
-    printVector<int>(n, vec);
+        std::cout << "Размер объекта n = " << sizeOfObject << std::endl;
+
+        // matrix Vector Multiplication for 1 thread
+        runTimeOneThread = selectionSortParallelRunTime(sizeOfObject, 1, vec);
+
+        // matrix Vector Multiplication for list of thread
+        for (auto &numOfThread: listOfThreads) {
+            listOfRunTimes.push_back(selectionSortParallelRunTime(sizeOfObject, numOfThread, vec));
+        }
+
+        std::cout << "Запись в файл .. " << std::endl;
+        // output statistic
+        file1 << std::to_string(sizeOfObject) << ";";
+        file1 << runTimeOneThread << ";";
+        for (auto &runTimeOfThread: listOfRunTimes) {
+            file1 << runTimeOfThread << ";" << runTimeOneThread - runTimeOfThread << ";" ;
+        }
+        file1 << std::endl;
+        file1 << std::endl;
+        listOfRunTimes = {};
+    }
+    file1.close();
+    vec.clear();
+
+    std::ofstream file2("statisticOfRunTimeQuickSortThreads.csv");
+    file2 << "Razmer obektov;"
+             "Posledovatelnyj algoritm (vremya);"
+             "2 processa (vremya);"
+             "2 processa (izmenenie);"
+             "4 processa (vremya);"
+             "4 processa (izmenenie);"
+             "8 processov (vremya);"
+             "8 processov (izmenenie);"
+             "16 processov (vremya);"
+             "16 processov (izmenenie);"
+            << std::endl;
+
+    std::cout << "Quick Sort..." << std::endl;
+    // Статистика для Сортировки выбором
+    for (auto &sizeOfObject: listSizeOfObjects) {
+
+        // generating random vector
+        intGenerateVector(sizeOfObject, 0, sizeOfObject, vec);
+
+        std::cout << "Размер объекта n = " << sizeOfObject << std::endl;
+
+        // matrix Vector Multiplication for 1 thread
+        runTimeOneThread = quickSortRunTime(sizeOfObject, 1, vec);
+
+        // matrix Vector Multiplication for list of thread
+        for (auto &numOfThread: listOfThreads) {
+            listOfRunTimes.push_back(quickSortRunTime(sizeOfObject, numOfThread, vec));
+        }
+
+        std::cout << "Запись в файл .. " << std::endl;
+        // output statistic
+        file2 << std::to_string(sizeOfObject) << ";";
+        file2 << runTimeOneThread << ";";
+        for (auto &runTimeOfThread: listOfRunTimes) {
+            file2 << runTimeOfThread << ";" << runTimeOneThread - runTimeOfThread << ";" ;
+        }
+        file2 << std::endl;
+        listOfRunTimes = {};
+    }
+    file2.close();
+    vec.clear();
+
+    std::ofstream file3("statisticOfRunTimeQuickSortThreads.csv");
+    file3 << "Razmer obektov;"
+             "Posledovatelnyj algoritm (vremya);"
+             "2 processa (vremya);"
+             "2 processa (izmenenie);"
+             "4 processa (vremya);"
+             "4 processa (izmenenie);"
+             "8 processov (vremya);"
+             "8 processov (izmenenie);"
+             "16 processov (vremya);"
+             "16 processov (izmenenie);"
+          << std::endl;
+
+    std::cout << "Merge Sort..." << std::endl;
+    // Статистика для Сортировки выбором
+    for (auto &sizeOfObject: listSizeOfObjects) {
+
+        // generating random vector
+        intGenerateVector(sizeOfObject, 0, sizeOfObject, vec);
+
+        std::cout << "Размер объекта n = " << sizeOfObject << std::endl;
+
+        // matrix Vector Multiplication for 1 thread
+        runTimeOneThread = mergeSortRunTime(sizeOfObject, 1, vec);
+
+        // matrix Vector Multiplication for list of thread
+        for (auto &numOfThread: listOfThreads) {
+            listOfRunTimes.push_back(mergeSortRunTime(sizeOfObject, numOfThread, vec));
+        }
+
+        std::cout << "Запись в файл .. " << std::endl;
+        // output statistic
+        file3 << std::to_string(sizeOfObject) << ";";
+        file3 << runTimeOneThread << ";";
+        for (auto &runTimeOfThread: listOfRunTimes) {
+            file3 << runTimeOfThread << ";" << runTimeOneThread - runTimeOfThread << ";" ;
+        }
+        file3 << std::endl;
+        listOfRunTimes = {};
+    }
+    file3.close();
+    vec.clear();
 }
 
 #endif //UNIVERWORK2024_TASK2_H
