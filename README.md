@@ -4,11 +4,15 @@ If you use Windows 10+ please will install WSL:
 Requirements for build:
 ```
 $sudo apt-get update
-$sudo apt-get upgrade
 $sudo apt-get install gdb
 $sudo apt-get install gcc
+sudo apt install libomp-dev
+$sudo apt-get install cmake
 $sudo apt-get install build-essential
+$sudo apt-get upgrade
 ```
+
+
 
 Install OMP library:
 ```
