@@ -44,7 +44,7 @@ selectionSort:
 | 100000         | 9304.64                              | 5460.44                | 3844.2                    | 4788.96                | 4515.68                   | 4480.91                 | 4823.73                    | 49054.8                  | -39750.2                    |
 | 150000         | 21687.9                              | 12641.7                | 9046.21                   | 11197.2                | 10490.7                   | 13198.1                 | 8489.77                    | 75894.1                  | -54206.2                    |
 | 200000         | 37890.5                              | 22683.6                | 15207                     | 19355.4                | 18535.2                   | 17675.7                 | 20214.9                    | 101316                   | -63425.1                    |
-300000;84201.3;49400.5;34800.8;43936.3;40264.9;39469.1;44732.2;157830;-73628.9;
+| 300000         | 84201.3                              | 49400.5                | 34800.8                   | 43936.3                | 40264.9                   | 39469.1                 | 44732.2                    | 157830                   | -73628.9                    |
 quickSort:
 ----------
 |Razmer obektov|Posledovatelnyj algoritm (vremya) ms|2 processa (vremya) ms|2 processa (izmenenie) ms|4 processa (vremya) ms|4 processa (izmenenie) ms|8 processov (vremya) ms|8 processov (izmenenie) ms|16 processov (vremya) ms|16 processov (izmenenie) ms|
