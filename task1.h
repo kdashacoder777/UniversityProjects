@@ -51,9 +51,10 @@ void task1() {
             "16 processov (izmenenie);"
          << std::endl;
 
-    int maxSize = 30000;
+    int minSize = 10000;
+    int maxSize = 50000;
+    std::vector<int> listSizeOfObjects = {minSize, 2 * minSize, 3 * minSize, 4 * minSize, maxSize};
     std::vector<int> listOfThreads = {2, 4, 8, 16};
-    std::vector<int> listSizeOfObjects = {2000, 5000, 10000, 15000, maxSize};
     std::vector<double> listOfRunTimes = {};
 
     int sizeReserve = maxSize + 1000;
