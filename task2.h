@@ -3,6 +3,7 @@
 #ifndef UNIVERWORK2024_TASK2_H
 #define UNIVERWORK2024_TASK2_H
 
+
 struct Compare { int val; int index; };
 #pragma omp declare reduction(maximum : \
                               struct Compare : \
@@ -36,7 +37,7 @@ double selectionSortParallelRunTime(int n, int numThreads, std::vector<int>& vec
     selectionSort(n, vec);
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duration_ms = end - start;
-    std::cout << "Программа выполнена для " << numThreads << " потока(ов) за "<< duration_ms.count() << " миллисекунд" << std::endl;
+    std::cout << "Programma vypolnena dlya " << numThreads << " potoka(ov) za "<< duration_ms.count() << " millisekund" << std::endl;
     return duration_ms.count();
 }
 
@@ -93,9 +94,10 @@ double quickSortRunTime(int n, int numThreads, std::vector<int>& vec) {
     multiThreadQuickSort(vec.data(), 0, n - 1);
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duration_ms = end - start;
-    std::cout << "Программа выполнена для " << numThreads << " потока(ов) за "<< duration_ms.count() << " миллисекунд" << std::endl;
+    std::cout << "Programma vypolnena dlya " << numThreads << " potoka(ov) za "<< duration_ms.count() << " millisekund" << std::endl;
     return duration_ms.count();
 }
+
 
 void mergeSort(int *X, int n, int *tmp)
 {
@@ -144,7 +146,7 @@ double mergeSortRunTime(int n, int numThreads, std::vector<int>& vec) {
     }
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duration_ms = end - start;
-    std::cout << "Программа выполнена для " << numThreads << " потока(ов) за "<< duration_ms.count() << " миллисекунд" << std::endl;
+    std::cout << "Programma vypolnena dlya " << numThreads << " potoka(ov) za "<< duration_ms.count() << " millisekund" << std::endl;
     return duration_ms.count();
 }
 
@@ -183,8 +185,8 @@ void task2() {
     std::vector<int> vec;
     std::vector<int> listOfThreads = {2, 4, 8, 16};
 
-    int minSize = 10000;
-    int maxSize = 50000;
+    int minSize = 50000;
+    int maxSize = 300000;
     std::vector<int> listSizeOfObjects = {minSize, 2 * minSize, 3 * minSize, 4 * minSize, maxSize};
     std::vector<double> listOfRunTimes = {};
     double runTimeOneThread = 0.0;
@@ -208,11 +210,10 @@ void task2() {
     std::cout << "Selection Sort..." << std::endl;
     // Статистика для Сортировки выбором
     for (auto &sizeOfObject: listSizeOfObjects) {
-
         // generating random vector
         intGenerateVector(sizeOfObject, 0, sizeOfObject, vec);
 
-        std::cout << "Размер объекта n = " << sizeOfObject << std::endl;
+        std::cout << "Size of object n = " << sizeOfObject << std::endl;
 
         // matrix Vector Multiplication for 1 thread
         runTimeOneThread = selectionSortParallelRunTime(sizeOfObject, 1, vec);
@@ -222,14 +223,13 @@ void task2() {
             listOfRunTimes.push_back(selectionSortParallelRunTime(sizeOfObject, numOfThread, vec));
         }
 
-        std::cout << "Запись в файл .. " << std::endl;
+        std::cout << "Write to file..." << std::endl;
         // output statistic
         file1 << std::to_string(sizeOfObject) << ";";
         file1 << runTimeOneThread << ";";
         for (auto &runTimeOfThread: listOfRunTimes) {
             file1 << runTimeOfThread << ";" << runTimeOneThread - runTimeOfThread << ";" ;
         }
-        file1 << std::endl;
         file1 << std::endl;
         listOfRunTimes = {};
     }
@@ -256,7 +256,7 @@ void task2() {
         // generating random vector
         intGenerateVector(sizeOfObject, 0, sizeOfObject, vec);
 
-        std::cout << "Размер объекта n = " << sizeOfObject << std::endl;
+        std::cout << "Size of object n = " << sizeOfObject << std::endl;
 
         // matrix Vector Multiplication for 1 thread
         runTimeOneThread = quickSortRunTime(sizeOfObject, 1, vec);
@@ -266,7 +266,7 @@ void task2() {
             listOfRunTimes.push_back(quickSortRunTime(sizeOfObject, numOfThread, vec));
         }
 
-        std::cout << "Запись в файл .. " << std::endl;
+        std::cout << "Write to file..." << std::endl;
         // output statistic
         file2 << std::to_string(sizeOfObject) << ";";
         file2 << runTimeOneThread << ";";
@@ -279,7 +279,7 @@ void task2() {
     file2.close();
     vec.clear();
 
-    std::ofstream file3("statisticOfRunTimeQuickSortThreads.csv");
+    std::ofstream file3("statisticOfRunTimeMergeSortThreads.csv");
     file3 << "Razmer obektov;"
              "Posledovatelnyj algoritm (vremya);"
              "2 processa (vremya);"
@@ -299,7 +299,7 @@ void task2() {
         // generating random vector
         intGenerateVector(sizeOfObject, 0, sizeOfObject, vec);
 
-        std::cout << "Размер объекта n = " << sizeOfObject << std::endl;
+        std::cout << "Size of object n = " << sizeOfObject << std::endl;
 
         // matrix Vector Multiplication for 1 thread
         runTimeOneThread = mergeSortRunTime(sizeOfObject, 1, vec);
@@ -309,7 +309,7 @@ void task2() {
             listOfRunTimes.push_back(mergeSortRunTime(sizeOfObject, numOfThread, vec));
         }
 
-        std::cout << "Запись в файл .. " << std::endl;
+        std::cout << "Write to file..." << std::endl;
         // output statistic
         file3 << std::to_string(sizeOfObject) << ";";
         file3 << runTimeOneThread << ";";
