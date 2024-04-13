@@ -27,7 +27,7 @@ double matrixVectorMultiplicationParallelRunTime(int n, int numThreads, const st
     matrixVectorMultiplication(n, numThreads, mat, vec, result);
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> duration_ms = end - start;
-    std::cout << "Программа выполнена для " << numThreads << " потока(ов) за "<< duration_ms.count() << " миллисекунд" << std::endl;
+    std::cout << "Programma vypolnena dlya " << numThreads << " potoka(ov) za "<< duration_ms.count() << " millisekund" << std::endl;
     return duration_ms.count();
 }
 
@@ -52,12 +52,13 @@ void task1() {
          << std::endl;
 
     int minSize = 10000;
-    int maxSize = 50000;
+    int maxSize = 60000;
     std::vector<int> listSizeOfObjects = {minSize, 2 * minSize, 3 * minSize, 4 * minSize, maxSize};
     std::vector<int> listOfThreads = {2, 4, 8, 16};
+
     std::vector<double> listOfRunTimes = {};
 
-    int sizeReserve = maxSize + 1000;
+    int sizeReserve = maxSize + 0.2 * maxSize;
     vec.reserve(sizeReserve);
     vecResult.reserve(sizeReserve);
     mat.reserve(sizeReserve);
@@ -66,13 +67,12 @@ void task1() {
     }
 
     for (auto &sizeOfObject: listSizeOfObjects) {
-
         // generating random vector
         generateVector(sizeOfObject, vec);
         // generating random matrix
         generateMatrix(sizeOfObject, mat);
 
-        std::cout << "Размер объекта n = " << sizeOfObject << std::endl;
+        std::cout << "Size of object n = " << sizeOfObject << std::endl;
         // matrix Vector Multiplication for 1 thread
         runTimeOneThread = matrixVectorMultiplicationParallelRunTime(sizeOfObject, 1, mat, vec, vecResult);
 
@@ -81,7 +81,7 @@ void task1() {
             listOfRunTimes.push_back(matrixVectorMultiplicationParallelRunTime(sizeOfObject, numOfThread, mat, vec, vecResult));
         }
 
-        std::cout << "Запись в файл .. " << std::endl;
+        std::cout << "Write to file..." << std::endl;
         // output statistic
         file << std::to_string(sizeOfObject) << ";";
         file << runTimeOneThread << ";";
