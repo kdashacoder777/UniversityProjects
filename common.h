@@ -61,22 +61,24 @@ void readMatrixFromFile(int &n, std::vector<std::vector<double>> &mat, int &id) 
 }
 
 void generateVector(int n, std::vector<double> &vec) {
+    vec.resize(n);
     for (int i = 0; i < n; ++i) {
         vec[i] = (double)(rand())/RAND_MAX; // generating random vector
     }
 }
 
 void intGenerateVector(int n, int firstValue, int lastValue, std::vector<int> &vec) {
-    vec.resize(n);
+//    vec.resize(n, 0);
     for (int i = 0; i < n; ++i) {
         vec[i] = firstValue + rand() % lastValue;; // generating random int vector
     }
 }
 
 void generateMatrix(int n, std::vector<std::vector<double>> &mat) {
-
+//    mat.resize(n);
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
+//            mat[i].resize(n, 0);
             mat[i][j] = (double)(rand())/RAND_MAX; // generating random matrix
         }
     }
