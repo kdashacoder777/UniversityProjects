@@ -32,7 +32,7 @@ void DecompositionMainElementLU(const std::vector<std::vector<double>>& A,
             throw std::runtime_error("Matrica virojdena");
         } else {
             if (pivot != k) {
-                std::cout << " swap k = " << k << "pivot = " << pivot << std::endl;
+                // std::cout << " swap k = " << k << "pivot = " << pivot << std::endl;
                 for (int j = 0; j < n; ++j) {
                     std::swap(U[pivot][j], U[k][j]);
                     std::swap(L[pivot][j], L[k][j]);
