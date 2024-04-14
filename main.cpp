@@ -14,6 +14,10 @@ int main() {
     task2();
     std::cout << "Задание 2 успешно закончено" << std::endl;
 
+    std::cout << "Задание 3 запуск" << std::endl;
+    task3();
+    std::cout << "Задание 3 успешно закончено" << std::endl;
+
 
     return 0;
 }
