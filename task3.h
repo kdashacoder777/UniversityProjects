@@ -229,7 +229,7 @@ void task3() {
 
     // Example 2 solution
     std::cout << "Exmaple 2" << std::endl;
-    int size = 5000;
+    int size = 100;
     ResizeMatrix(size, A);
     generateMatrix(size, A);
     ResizeMatrix(size, L);
