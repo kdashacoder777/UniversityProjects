@@ -86,28 +86,7 @@ void DecompositionMainElementLU(std::vector<std::vector<double>>& A,
 //        printMatrixName("Lit" + std::to_string(k), L);
 //        printMatrixName("Uit" + std::to_string(k), U);
     }
-
-
-////    LU
-//        for(int i = 0; i < n; i++)
-//            for(int j = i; j < n; j++) {
-//                L[j][i] = U[j][i] / U[i][i];
-//            }
-//
-//        for(int k = 1; k < n; k++)
-//        {
-//            for(int i = k-1; i < n; i++)
-//                for(int j = i; j < n; j++) {
-//                    L[j][i] = U[j][i] / U[i][i];
-//                }
-//
-//            for(int i = k; i < n; i++) {
-//                for (int j = k - 1; j < n; j++) {
-//                    U[i][j] = U[i][j] - L[i][k - 1] * U[k - 1][j];
-//                }
-//            }
-//        }
-
+    
 //     Заполняем диагональные элементы L единицами
     for (int i = 0; i < n; ++i) {
         L[i][i] = 1.0;
@@ -151,6 +130,7 @@ void MatrixVectorMultiplication(int n, const std::vector<std::vector<double>>& m
     }
 }
 
+
 double Residual(const std::vector<double>& v1, const std::vector<double>& v2) {
     if (v1.size() != v2.size()) {
         std::cout << "Error residual(v1, v2)! Size of objects are not equal!" << std::endl;
@@ -171,6 +151,7 @@ double DecompositionMainElementLUSolution(std::vector<std::vector<double>>& A,
                                     std::vector<std::vector<double>>& U,
                                     double &residual,
                                     double &runtime) {
+    std::cout << "Start LU decomposition " << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
     DecompositionMainElementLU(A, L, U);
     auto end = std::chrono::high_resolution_clock::now();
@@ -193,6 +174,7 @@ double DecompositionMainElementLUSolution(std::vector<std::vector<double>>& A,
     std::cout << "n            :"  << A.size() << std::endl;
     std::cout << "residual     :"  << residual << std::endl;
     std::cout << "run time(ms) :"  << runtime << std::endl;
+    std::cout << "End LU decomposition " << std::endl;
     return runtime;
 }
 
@@ -224,8 +206,8 @@ std::vector<std::vector<double>> TransposeMatrix(const std::vector<std::vector<d
     return transposed;
 }
 
-void task3() {
 
+void task3() {
     double residual, runtime = 0.0;
     std::vector<double> vec;
     std::vector<std::vector<double>> A;
@@ -260,7 +242,7 @@ void task3() {
     std::cout << std::endl;
 //     Example 2 solution
     std::cout << "Exmaple 2" << std::endl;
-    int sizeOfObject = 1000;
+    int sizeOfObject = 500;
     ResizeMatrix(sizeOfObject, A);
     std::cout << "Size of object: " << sizeOfObject << std::endl;
     std::cout << "Generating object..." << sizeOfObject << std::endl;
