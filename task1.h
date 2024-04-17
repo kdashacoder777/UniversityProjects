@@ -57,16 +57,12 @@ void task1() {
     std::vector<int> listOfThreads = {2, 4, 8, 16};
 
     std::vector<double> listOfRunTimes = {};
-
-    int sizeReserve = maxSize + 0.2 * maxSize;
-    vec.reserve(sizeReserve);
-    vecResult.reserve(sizeReserve);
-    mat.reserve(sizeReserve);
-    for (int i = 0; i < sizeReserve; ++i) {
-        mat[i].reserve(sizeReserve);
-    }
-
+    
     for (auto &sizeOfObject: listSizeOfObjects) {
+
+        ResizeMatrix(sizeOfObject, mat);
+        vec.resize(sizeOfObject, 0.);
+        vecResult.resize(sizeOfObject, 0.);
         // generating random vector
         generateVector(sizeOfObject, vec);
         // generating random matrix
