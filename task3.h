@@ -4,24 +4,49 @@
 #ifndef UNIVERWORK2024_TASK3_H
 #define UNIVERWORK2024_TASK3_H
 
-void DecompositionMainElementLU(const std::vector<std::vector<double>>& A,
+void printMatrixName(std::string nameMat, const std::vector<std::vector<double>> &mat) {
+    int n = mat.size();
+    if (n < 50) {
+        std::cout << std::endl << nameMat + "[" << n << "][" << n << "]:" << std::endl;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                std::cout << std::setw(4) << mat[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+}
+
+template<typename Type>
+void printVectorName(std::string nameVec, const std::vector<Type> &vec) {
+    int n = vec.size();
+    if (n < 50) {
+        std::cout << nameVec + "[" << n << "]:" << std::endl;
+        for (int i = 0; i < n; ++i) {
+            std::cout << vec[i] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+void DecompositionMainElementLU(std::vector<std::vector<double>>& A,
                                 std::vector<std::vector<double>>& L,
                                 std::vector<std::vector<double>>& U) {
     int n = A.size();
+    std::vector<double> factor(n, 0);
     std::vector<double> vecNorm(n, 0);
     if (L.size() != U.size() && n != U.size()) {
         std::cout << "Error DecompositionMainElementLU(A, L, U)! Size of objects are not equal!" << std::endl;
         std::cout << "L.size() = " << L.size()  << ", U.size() = "<< U.size()  << ", A.size() = " << A.size() << std::endl;
         throw std::invalid_argument("A.size() != L.size() != U.size");
     }
-
     U = A;
 
     for (int k = 0; k < n - 1 ; ++k) {
         // Находим индекс главного элемента в столбце k
         int pivot = k;
         double max = U[k][k];
-        for (int i = k + i; i < n; ++i) {
+        for (int i = k + 1; i < n; ++i) {
             if (abs(U[i][k]) > abs(U[pivot][k])) {
                 pivot = i;
                 max = U[i][k];
@@ -32,24 +57,38 @@ void DecompositionMainElementLU(const std::vector<std::vector<double>>& A,
             throw std::runtime_error("Matrica virojdena");
         } else {
             if (pivot != k) {
-                // std::cout << " swap k = " << k << "pivot = " << pivot << std::endl;
+//                std::cout << " swap k = " << k << "pivot = " << pivot << std::endl;
                 for (int j = 0; j < n; ++j) {
                     std::swap(U[pivot][j], U[k][j]);
                     std::swap(L[pivot][j], L[k][j]);
+                    std::swap(A[pivot][j], A[k][j]);
                 }
             }
         }
-
+//        std::cout <<"pivot = " << pivot << std::endl;
+//        std::cout <<"max = " << max << std::endl;
         for (int i = k + 1; i < n; ++i) {
-            // Вычисляем коэффициенты для L и U
-            double factor = U[i][k] / max;
-            L[i][k] = factor;
+//            std::cout <<"i = " << i << " U[i][k] / max; = " << U[i][k] / max << std::endl;
+            factor[i] = U[i][k] / max;
+        }
+//        printVectorName("factor", factor);
+        // 0 (f1 f2 f3)
+        // 0 f1 (f4 f5)
+        // 0 f1 f4 (f5)
+        for (int i = k + 1; i < n; ++i) {
+            L[i][k] = factor[i];
             for (int j = k; j < n; ++j) {
-                U[i][j] -= factor * U[k][j];
+//                std::cout <<"k = " << k << " j = " << j << std::endl;
+//                std::cout <<"factor(i)= " << i  << " = " << factor[i] << std::endl;
+                U[i][j] -= factor[i] * U[k][j];
             }
         }
+//        printMatrixName("Lit" + std::to_string(k), L);
+//        printMatrixName("Uit" + std::to_string(k), U);
     }
-//    LU
+
+
+////    LU
 //        for(int i = 0; i < n; i++)
 //            for(int j = i; j < n; j++) {
 //                L[j][i] = U[j][i] / U[i][i];
@@ -68,9 +107,8 @@ void DecompositionMainElementLU(const std::vector<std::vector<double>>& A,
 //                }
 //            }
 //        }
-//
 
-    // Заполняем диагональные элементы L единицами
+//     Заполняем диагональные элементы L единицами
     for (int i = 0; i < n; ++i) {
         L[i][i] = 1.0;
     }
@@ -113,7 +151,6 @@ void MatrixVectorMultiplication(int n, const std::vector<std::vector<double>>& m
     }
 }
 
-
 double Residual(const std::vector<double>& v1, const std::vector<double>& v2) {
     if (v1.size() != v2.size()) {
         std::cout << "Error residual(v1, v2)! Size of objects are not equal!" << std::endl;
@@ -129,7 +166,7 @@ double Residual(const std::vector<double>& v1, const std::vector<double>& v2) {
     return std::sqrt(sum);
 }
 
-double DecompositionMainElementLUSolution(const std::vector<std::vector<double>>& A,
+double DecompositionMainElementLUSolution(std::vector<std::vector<double>>& A,
                                     std::vector<std::vector<double>>& L,
                                     std::vector<std::vector<double>>& U,
                                     double &residual,
@@ -169,31 +206,23 @@ inline void ResizeMatrix(int n, std::vector<std::vector<double>> &mat) {
     }
 }
 
-void printMatrixName(std::string nameMat, const std::vector<std::vector<double>> &mat) {
-    int n = mat.size();
-    if (n < 50) {
-        std::cout << std::endl << nameMat + "[" << n << "][" << n << "]:" << std::endl;
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                std::cout << mat[i][j] << " ";
-            }
-            std::cout << std::endl;
+std::vector<std::vector<double>> TransposeMatrix(const std::vector<std::vector<double>>& matrix) {
+    // Получаем размеры исходной матрицы
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+
+    // Создаем пустую матрицу для результата
+    std::vector<std::vector<double>> transposed(cols, std::vector<double>(rows, 0));
+
+    // Заполняем транспонированную матрицу
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            transposed[j][i] = matrix[i][j];
         }
     }
-}
 
-template<typename Type>
-void printVectorName(std::string nameVec, const std::vector<Type> &vec) {
-    int n = nameVec.size();
-    if (n < 50) {
-        std::cout << nameVec + "[" << n << "]:" << std::endl;
-        for (int i = 0; i < n; ++i) {
-            std::cout << vec[i] << " ";
-        }
-        std::cout << std::endl;
-    }
+    return transposed;
 }
-
 
 void task3() {
 
@@ -202,39 +231,42 @@ void task3() {
     std::vector<std::vector<double>> A;
     std::vector<std::vector<double>> L;
     std::vector<std::vector<double>> U;
-
+    std::vector<std::vector<double>> R;
     int minSize = 1000;
     int maxSize = 6000;
     std::vector<int> listSizeOfObjects = {minSize, 2 * minSize, 3 * minSize, 4 * minSize, maxSize};
 
     // Example 1 solution
     std::cout << "Exmaple 1" << std::endl;
-    std::vector<std::vector<double>> Aex = {{2., -1., 1.},
-                                            {-3., -1., 4.},
-                                            {-1., 1., 3.}};
-    std::vector<std::vector<double>> Lex = {{1, 0, 0},
-                                            {-1.5, 1, 0},
-                                            {-0.5, 2, 1}};
-    std::vector<std::vector<double>> Uex = {{2, -1, 1},
-                                            {0, -0.5, 2.5},
-                                            {0, 0, 2}};
+    std::vector<std::vector<double>> Aex = {{3., 4., -9., 5., },
+                                            {-15., -12., 50., -16.},
+                                            {-27., -36., 73., 8.},
+                                            {9., 12., -10., -16.}};
+
     printMatrixName("Aex", Aex);
-    printMatrixName("Lex", Lex);
-    printMatrixName("Uex", Uex);
-    ResizeMatrix(3, L);
-    ResizeMatrix(3, U);
+//    printMatrixName("Lex", Lex);
+//    printMatrixName("Uex", Uex);
+    ResizeMatrix(Aex.size(), L);
+    ResizeMatrix(Aex.size(), U);
+
     DecompositionMainElementLUSolution(Aex, L, U, residual, runtime);
     printMatrixName("Lres", L);
     printMatrixName("Ures", U);
 
-    // Example 2 solution
+    ResizeMatrix(Aex.size(), R);
+    R = MatrixMultiplication(L,U);
+    printMatrixName("LUres", R);
+    
+    std::cout << std::endl;
+//     Example 2 solution
     std::cout << "Exmaple 2" << std::endl;
-    int size = 100;
-    ResizeMatrix(size, A);
-    generateMatrix(size, A);
-    ResizeMatrix(size, L);
-    ResizeMatrix(size, U);
-
+    int sizeOfObject = 1000;
+    ResizeMatrix(sizeOfObject, A);
+    std::cout << "Size of object: " << sizeOfObject << std::endl;
+    std::cout << "Generating object..." << sizeOfObject << std::endl;
+    generateMatrix(sizeOfObject, A);
+    ResizeMatrix(sizeOfObject, L);
+    ResizeMatrix(sizeOfObject, U);
     DecompositionMainElementLUSolution(A, L, U, residual, runtime);
     printMatrixName("Lres", L);
     printMatrixName("Ures", U);
