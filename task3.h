@@ -86,7 +86,7 @@ void DecompositionMainElementLU(std::vector<std::vector<double>>& A,
 //        printMatrixName("Lit" + std::to_string(k), L);
 //        printMatrixName("Uit" + std::to_string(k), U);
     }
-    
+
 //     Заполняем диагональные элементы L единицами
     for (int i = 0; i < n; ++i) {
         L[i][i] = 1.0;
@@ -176,16 +176,6 @@ double DecompositionMainElementLUSolution(std::vector<std::vector<double>>& A,
     std::cout << "run time(ms) :"  << runtime << std::endl;
     std::cout << "End LU decomposition " << std::endl;
     return runtime;
-}
-
-inline void ResizeMatrix(int n, std::vector<std::vector<double>> &mat) {
-    mat.resize(n);
-    for (int i = 0; i < n; ++i) {
-        mat[i].resize(n);
-        for (int j = 0; j < n; ++j) {
-            mat[i][j] = 0.0;
-        }
-    }
 }
 
 std::vector<std::vector<double>> TransposeMatrix(const std::vector<std::vector<double>>& matrix) {
