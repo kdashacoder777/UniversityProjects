@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <chrono>
+#include <iomanip>
 
 #ifndef UNIVERWORK2024_COMMON_H
 #define UNIVERWORK2024_COMMON_H
@@ -75,10 +76,8 @@ void intGenerateVector(int n, int firstValue, int lastValue, std::vector<int> &v
 }
 
 void generateMatrix(int n, std::vector<std::vector<double>> &mat) {
-//    mat.resize(n);
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
-//            mat[i].resize(n, 0);
             mat[i][j] = (double)(rand())/RAND_MAX; // generating random matrix
         }
     }
@@ -100,11 +99,22 @@ void printMatrix(int &n, const std::vector<std::vector<double>> &mat) {
         std::cout << std::endl << "Matrix[" << n << "][" << n << "]:" << std::endl;
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
-                std::cout << mat[i][j] << " ";
+                std::cout << std::setw(2) << mat[i][j] << " ";
             }
             std::cout << std::endl;
         }
     }
 }
 
+inline void ResizeMatrix(int n, std::vector<std::vector<double>> &mat) {
+    mat.resize(n);
+    for (int i = 0; i < n; ++i) {
+        mat[i].resize(n);
+        for (int j = 0; j < n; ++j) {
+            mat[i][j] = 0.0;
+        }
+    }
+}
+
 #endif //UNIVERWORK2024_COMMON_H
+
